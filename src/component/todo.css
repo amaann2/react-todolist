@@ -1,6 +1,6 @@
 .container{
     /* border:  2px solid black; */
-    width: 350px;
+    /* width: 350px; */
     text-align: center;
     margin: 50px auto;
     
@@ -22,29 +22,33 @@
 }
 
 h3{
-    width: 270px;
+    width:70%;
     font-size: 20px;
     padding: 5px;
-    text-align: left;
+    text-align:center;
     display: inline-block;
-    margin: 10px 0px 10px 0px;
-    background-color: aliceblue;
+    margin: 10px auto;
+    background-color: white;
     position: relative;
+    cursor: pointer;
     left: 10px;
+}
+h3:hover{
+    background-color: #d3d4d5;
 }
 .icon{
     height: 30px;
     display: inline;
     width: 20px;
     position: relative;
-    right: 50px;
+    right: 120px;
     top: 10px;
 }
-/*  
+ 
 .item button{
     height: 35px;
-    display: inline-block; */
-/* } */
+    display: inline-block; 
+}
 
 body{
     background-color: pink;

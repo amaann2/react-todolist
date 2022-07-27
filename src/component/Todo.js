@@ -13,35 +13,55 @@ const getitem = () => {
     }
 }
 
+
 const Todo = () => {
     //all state
-    const [input, setinput] = useState('')
+    const [inputdata, setinputdata] = useState('')
     const [item, setitem] = useState(getitem)
     const [toggle, settoggle] = useState(true)
     const [isedited, setisedited] = useState(null)
 
+    //add item when enter key is pressed
+    const listener = event => {
+        if (event.code === "Enter" && inputdata) {
+            event.preventDefault();
+            additem();
+        }
+    };
+    document.addEventListener("keydown", listener);
+
+
+
     //add item function
     const additem = () => {
-        if (!input) {
+        //if no item
+        if (!inputdata) {
             alert("enter the item")
         }
-        else if (input && !toggle) {
+        //for edited item
+        else if (inputdata && !toggle) {
             setitem(
                 item.map((elem) => {
                     if (elem.id === isedited) {
-                        return { ...elem, name: input }
+                        return { ...elem, name: inputdata }
                     }
                     return elem;
                 })
             )
             settoggle(true)
             setisedited(null)
-            setinput("")
+            setinputdata("")
         }
+
+        //adding item
         else {
-            const inputdata = { id: new Date().getTime().toString(), name: input }
-            setitem([...item, inputdata])
-            setinput('')
+            const inputdatadata = { 
+                id: new Date().getTime().toString(), 
+                name: inputdata 
+            }
+            setitem([...item, inputdatadata])
+            setinputdata('')
+
         }
     }
 
@@ -65,27 +85,30 @@ const Todo = () => {
             return ele.id === id
         })
         settoggle(false)
-        setinput(newitem.name)
+        setinputdata(newitem.name)
         setisedited(id)
     }
+
 
     //useeffect  to set item in localstorage
     useEffect(() => {
         localStorage.setItem("list", JSON.stringify(item))
     }, [item])
 
+
+
     return (
         <>
             <div className="container">
                 <h2>Add your TO-Do-LIST</h2>
-                {/* input  */}
-                <input onChange={(e) => setinput(e.target.value)} type="text" value={input} />
+                {/* inputdatadata  */}
+                <input onChange={(e) => setinputdata(e.target.value)} type="text" value={inputdata} />
 
 
                 {/* add or edit button  */}
                 {
                     toggle ?
-                        <button className=" btn btn-light btn-sm" onClick={additem} >Add</button> :
+                        <button className=" btn btn-light btn-sm" onClick={additem} onKeyPress={(e) => e.key === 'Enter' && additem} >Add</button> :
                         < button className=" btn btn-light btn-sm" onClick={additem} >edit</button>
                 }
 
@@ -101,7 +124,7 @@ const Todo = () => {
                 ))}
 
 
-               {/* clear all button  */}
+                {/* clear all button  */}
                 <br /><button className='btn btn-danger btn-light' onClick={clearall}>Clear all</button>
             </div>
 
